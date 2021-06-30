@@ -45,22 +45,10 @@ class SearchRepositoriesViewModel(private val repository: GithubRepository) : Vi
     private var currentSearchResult : Flow<PagingData<UiModel>>? = null
 
 
-    /*companion object {
-        private const val VISIBLE_THRESHOLD = 5
-    }*/
-
-    /*private val queryLiveData = MutableLiveData<String>()
-    val repoResult: LiveData<RepoSearchResult> = queryLiveData.switchMap { queryString ->
-        liveData {
-            val repos = repository.getSearchResultStream(queryString).asLiveData(Dispatchers.Main)
-            emitSource(repos)
-        }
-    }*/
-
     /**
      * Search a repository based on a query string.
      */
-    suspend fun searchRepo(queryString: String) : Flow<PagingData<UiModel>> {
+    fun searchRepo(queryString: String) : Flow<PagingData<UiModel>> {
         val lastResult = currentSearchResult
         if (queryString == currentQueryValue && lastResult != null) {
             return lastResult
@@ -105,14 +93,5 @@ class SearchRepositoriesViewModel(private val repository: GithubRepository) : Vi
     private val UiModel.RepoItem.roundedStarsCount : Int
     get() = this.repo.stars / 10_000
 
-    /*fun listScrolled(visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
-        if (visibleItemCount + lastVisibleItemPosition + VISIBLE_THRESHOLD >= totalItemCount) {
-            val immutableQuery = queryLiveData.value
-            if (immutableQuery != null) {
-                viewModelScope.launch {
-                    repository.requestMore(immutableQuery)
-                }
-            }
-        }
-    }*/
+
 }
